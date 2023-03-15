@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<body>
+  <h2>POST Request</h2>
+  <form method="post" id="form">
+    <label for="x">First Number (X):</label><br>
+    <input type="text" id="x" name="x"><br>
+    <label for="y">Second Number (Y):</label><br>
+    <input type="text" id="y" name="y"><br><br>
+    <input type="submit" value="Submit">
+  </form>
+  
+</body>
+<br>
+
+<h2>GET Request</h2>
+<form method="post" id="form2">
+  <label for="x2">First Number (X):</label><br>
+  <input type="text" id="x2" name="x2"><br>
+  <label for="y2">Second Number (Y):</label><br>
+  <input type="text" id="y2" name="y2"><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<script>
+  const form = document.getElementById("form");
+  const form2 = document.getElementById("form2");
+
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const x = document.getElementById("x");
+    const y = document.getElementById("y");
+    if (x.value == "" || y.value == "") {
+      alert("Ensure you input a value in both fields!");
+    } else {
+      
+      axios.post('http://localhost:5000/postsum', 
+        {
+          x: x.value, 
+          y: y.value
+        }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function (res) {
+        alert(`the result is: ${res.data}`)
+      })
+
+      x.value = "";
+      y.value = "";
+    }
+});
+
+// fomr 2 lsitner
+form2.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const x = document.getElementById("x2");
+  const y = document.getElementById("y2");
+  if (x.value == "" || y.value == "") {
+    alert("Ensure you input a value in both fields!");
+  } else {
+    
+    axios.get('http://localhost:5000/getsum', 
+    {
+      params: {
+        x: x.value,
+        y: y.value
+      }
+    }).then(function (res) {
+      alert(`the result is: ${res.data}`)
+    })
+
+    x.value = "";
+    y.value = "";
+  }
+});
+
+</script>
+</html>
